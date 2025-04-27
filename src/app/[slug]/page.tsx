@@ -19,16 +19,15 @@ const pages = {
 export const dynamic = "force-dynamic";
 
 /* --------------------------------------------------------------------------
-   Page component — prop type now includes both `params`
-   and `_searchParams` (prefixed with underscore so ESLint
-   ignores the unused variable).
+   Page component — only `params` is destructured; `searchParams`
+   exists *in the type* (to satisfy Next.js) but isn’t bound, so
+   ESLint sees no unused variable.
 --------------------------------------------------------------------------- */
 export default function DynamicPage({
   params,
-  _searchParams, // eslint-ignore: underscore marks it as intentionally unused
 }: {
   params: { slug: string };
-  _searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
@@ -40,5 +39,6 @@ export default function DynamicPage({
     </main>
   );
 }
+
 
 
