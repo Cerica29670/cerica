@@ -24,6 +24,7 @@ export const dynamic = "force-dynamic";
 --------------------------------------------------------------------------- */
 export default function DynamicPage({
   params,
+  searchParams,          //  ←  add this (even if we don’t use it)
 }: {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
