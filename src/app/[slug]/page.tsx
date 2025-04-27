@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// src/app/[slug]/page.tsx
 import { notFound } from "next/navigation";
 
 /* --------------------------------------------------------------------------
@@ -20,14 +18,17 @@ const pages = {
 export const dynamic = "force-dynamic";
 
 /* --------------------------------------------------------------------------
-   Page component — `searchParams` is included in the *type* (TS constraint),
-   but not destructured, so it’s never considered a runtime variable.
+   Page component
+   - `searchParams` is required to satisfy the Next-15 PageProps constraint
+   - One eslint-disable comment silences “unused variable”
 --------------------------------------------------------------------------- */
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 export default function DynamicPage({
   params,
+  searchParams,
 }: {
   params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
@@ -39,6 +40,7 @@ export default function DynamicPage({
     </main>
   );
 }
+
 
 
 
