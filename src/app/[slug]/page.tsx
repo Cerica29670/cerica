@@ -2,7 +2,7 @@
 import { notFound } from "next/navigation";
 
 /* --------------------------------------------------------------------------
-   Dummy content – replace with real CMS / MDX later
+   Dummy content – replace later with CMS / MDX
 --------------------------------------------------------------------------- */
 const pages = {
   "privacy-policy": {
@@ -15,22 +15,19 @@ const pages = {
   },
 } as const;
 
-/* --------------------------------------------------------------------------
-   Tell Next.js to render this route dynamically each request
---------------------------------------------------------------------------- */
+/* Render this route dynamically each request */
 export const dynamic = "force-dynamic";
 
 /* --------------------------------------------------------------------------
-   Page component
-   - The prop type now includes *both* `params` and optional `searchParams`
-     to satisfy Next.js’s PageProps constraint (fixes the TS build error).
+   Page component — inline prop type includes both `params` and optional
+   `searchParams`, which satisfies Next.js PageProps constraint.
 --------------------------------------------------------------------------- */
-type PageProps = {
+export default function DynamicPage({
+  params,
+}: {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default function DynamicPage({ params }: PageProps) {
+}) {
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
 
