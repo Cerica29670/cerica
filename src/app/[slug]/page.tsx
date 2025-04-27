@@ -1,5 +1,6 @@
 // src/app/[slug]/page.tsx
 import { notFound } from "next/navigation";
+import type { PageProps } from "next";
 
 /* --------------------------------------------------------------------------
    Dummy content – replace later with CMS / MDX
@@ -19,16 +20,13 @@ const pages = {
 export const dynamic = "force-dynamic";
 
 /* --------------------------------------------------------------------------
-   Page component — only `params` is destructured; `searchParams`
-   exists *in the type* (to satisfy Next.js) but isn’t bound, so
-   ESLint sees no unused variable.
+   Page component — use Next's PageProps and only destructure `params`;
+   `searchParams` is still present in the type so the constraint is satisfied,
+   but because we don't destructure it ESLint sees no unused variable.
 --------------------------------------------------------------------------- */
 export default function DynamicPage({
   params,
-}: {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+}: PageProps<{ slug: string }>) {
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
 
@@ -39,6 +37,7 @@ export default function DynamicPage({
     </main>
   );
 }
+
 
 
 
