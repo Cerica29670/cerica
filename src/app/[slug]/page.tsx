@@ -1,4 +1,4 @@
-// @ts-nocheck                           <-- disables TS just for this file
+// src/app/[slug]/page.tsx
 import { notFound } from "next/navigation";
 
 /* --------------------------------------------------------------------------
@@ -20,8 +20,17 @@ export const dynamic = "force-dynamic";
 
 /* --------------------------------------------------------------------------
    Page component
+   - `searchParams` is present in the prop *type* to satisfy Next.js.
+   - We immediately rename it to `_searchParams` when destructuring so
+     ESLint (@typescript-eslint/no-unused-vars) will ignore it.
 --------------------------------------------------------------------------- */
-export default function DynamicPage({ params }) {
+export default function DynamicPage({
+  params,
+  searchParams: _searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
 
@@ -32,6 +41,7 @@ export default function DynamicPage({ params }) {
     </main>
   );
 }
+
 
 
 
