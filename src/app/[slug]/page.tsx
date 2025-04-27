@@ -19,15 +19,16 @@ const pages = {
 export const dynamic = "force-dynamic";
 
 /* --------------------------------------------------------------------------
-   Page component — inline prop type includes both `params` and optional
-   `searchParams`, which satisfies Next.js PageProps constraint.
+   Page component — prop type now includes both `params`
+   and `_searchParams` (prefixed with underscore so ESLint
+   ignores the unused variable).
 --------------------------------------------------------------------------- */
 export default function DynamicPage({
   params,
-  searchParams,          //  ←  add this (even if we don’t use it)
+  _searchParams, // eslint-ignore: underscore marks it as intentionally unused
 }: {
   params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  _searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
@@ -39,4 +40,5 @@ export default function DynamicPage({
     </main>
   );
 }
+
 
