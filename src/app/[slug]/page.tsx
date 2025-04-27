@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
-/* --------------------------------------------------------------------------
-   Dummy content – replace later with CMS / MDX
---------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*  Dummy content – swap out for real CMS / MDX later                         */
+/* -------------------------------------------------------------------------- */
 const pages = {
   "privacy-policy": {
     title: "Privacy Policy",
@@ -17,12 +17,12 @@ const pages = {
 /* Always render this route dynamically */
 export const dynamic = "force-dynamic";
 
-/* --------------------------------------------------------------------------
-   Page component
-   - `searchParams` is required to satisfy the Next-15 PageProps constraint
-   - One eslint-disable comment silences “unused variable”
---------------------------------------------------------------------------- */
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+/* -------------------------------------------------------------------------- */
+/*  Page component                                                            */
+/*  - `searchParams` **must** be present (Next.js type-constraint)            */
+/*  - We immediately reference it with `void searchParams;` so ESLint         */
+/*    considers it “used” and no rule is violated.                            */
+/* -------------------------------------------------------------------------- */
 export default function DynamicPage({
   params,
   searchParams,
@@ -30,6 +30,9 @@ export default function DynamicPage({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  /* mark variable as used → silences @typescript-eslint/no-unused-vars */
+  void searchParams;
+
   const page = pages[params.slug as keyof typeof pages];
   if (!page) notFound();
 
@@ -40,6 +43,7 @@ export default function DynamicPage({
     </main>
   );
 }
+
 
 
 
